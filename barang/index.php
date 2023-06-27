@@ -55,7 +55,7 @@ if ($msg == 'deleted') {
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
-                        <li class="breadcrumb-item active">Add Supplier</li>
+                        <li class="breadcrumb-item active">Barang</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -100,6 +100,7 @@ if ($msg == 'deleted') {
                                     <td class="text-center"><?= number_format($brg['harga_beli'], 0, ',', '.') ?></td>
                                     <td class="text-center"><?= number_format($brg['harga_jual'], 0, ',', '.') ?></td>
                                     <td>
+                                        <a href="form-barang.php?id=<?= $brg['id_barang'] ?>&msg=editing" class="btn btn-warning btn-sm" title="edit barang"><i class="fas fa-pen"></i></a>
                                         <a href="?id=<?= $brg['id_barang'] ?>&gbr=<?= $brg['gambar'] ?>&msg=deleted" class="btn btn-danger btn-sm" title="hapus barang" onclick="return confirm ('Apakah anda yakin mau menghapus barang ini?')"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>

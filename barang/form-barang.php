@@ -16,6 +16,16 @@ require '../template/header.php';
 require '../template/navbar.php';
 require '../template/sidebar.php';
 
+if (isset($_GET['msg'])) {
+    $msg    = $_GET['msg'];
+    $id     = $_GET['id'];
+
+    $sqlEdit    = "SELECT * FROM file_barang WHERE id_barang = '$id'";
+    $barang     = getData($sqlEdit)[0];
+} else {
+    $msg    = "";
+}
+
 $alert = '';
 if (isset($_POST['simpan'])) { //jika tombol simpan di klik maka
     if (insert($_POST)) {
@@ -42,8 +52,8 @@ if (isset($_POST['simpan'])) { //jika tombol simpan di klik maka
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= $main_url ?>dashboard.php">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= $main_url ?>barang">Barang</a></li>
-                        <li class="breadcrumb-item active">Add Barang</li>
+                        <li class="breadcrumb-item"><a href="<?= $main_url ?>barang"> Barang</a></li>
+                        <li class="breadcrumb-item active"><?= $msg != '' ? 'Edit Barang' : 'Add Barang' ?></li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -59,7 +69,7 @@ if (isset($_POST['simpan'])) { //jika tombol simpan di klik maka
                         echo $alert;
                     } ?>
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-plus fa-sm"></i> Tambah Barang</h3>
+                        <h3 class="card-title"><i class="fas fa-pen fa-sm"></i><?= $msg != '' ? ' Edit Barang' : ' Input Barang' ?></h3>
                         <button type="submit" name="simpan" class="btn btn-primary btn-sm float-right"><i class="fas fa-save"></i> Simpan</button>
                         <button type="reset" class="btn btn-danger btn-sm float-right mr-1"><i class="fas fa-times"></i> Reset</button>
                     </div>
@@ -68,42 +78,55 @@ if (isset($_POST['simpan'])) { //jika tombol simpan di klik maka
                             <div class="col-lg-8 mb-3 pr-3">
                                 <div class="form-group">
                                     <label for="kode">Kode Barang</label>
-                                    <input type="text" name="kode" class="form-control" id="kode" value="<?= generateId() ?>" readonly></input>
+                                    <input type="text" name="kode" class="form-control" id="kode" value="<?= $msg != '' ? $barang['id_barang'] : generateId() ?>" readonly></input>
                                 </div>
                                 <div class="form-group">
                                     <label for="barcode">Barcode *</label>
-                                    <input type="text" name="barcode" class="form-control" id="barcode" placeholder="barcode" autocomplete="off" autofocus required></input>
+                                    <input type="text" name="barcode" class="form-control" id="barcode" value="<?= $msg != '' ? $barang['barcode'] : null ?>" placeholder="barcode" autocomplete="off" autofocus required></input>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Nama *</label>
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="nama barang" autocomplete="off" autofocus required></input>
+                                    <input type="text" name="name" class="form-control" id="name" value="<?= $msg != '' ? $barang['nama_barang'] : null ?>" placeholder="nama barang" autocomplete="off" autofocus required></input>
                                 </div>
                                 <div class="form-group">
                                     <label for="satuan">Satuan *</label>
                                     <select name="satuan" id="satuan" class="form-control" required>
-                                        <option value="">-- Satuan Barang --</option>
-                                        <option value="piece">piece</option>
-                                        <option value="botol">botol</option>
-                                        <option value="kaleng">kaleng</option>
-                                        <option value="pouch">pouch</option>
-
+                                        <?php
+                                        if ($msg != "") { //ini kl edit barang
+                                            $satuan = ["piece", "botol", "kaleng", "pouch"];
+                                            foreach ($satuan as $sat) {
+                                                if ($barang['satuan'] == $sat) { ?>
+                                                    <option value="<?= $sat ?>" selected><?= $sat ?></option>
+                                                <?php  } else { ?>
+                                                    <option value="<?= $sat ?>"><?= $sat ?></option>
+                                            <?php
+                                                }
+                                            }
+                                        } else { ?>
+                                            <option value="">-- Satuan Barang --</option>
+                                            <option value="piece">piece</option>
+                                            <option value="botol">botol</option>
+                                            <option value="kaleng">kaleng</option>
+                                            <option value="pouch">pouch</option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="harga_beli">Harga Beli *</label>
-                                    <input type="number" name="harga_beli" class="form-control" id="harga_beli" placeholder="Rp. 0" autocomplete="off" required></input>
+                                    <input type="number" name="harga_beli" class="form-control" id="harga_beli" value="<?= $msg != '' ? $barang['harga_beli'] : null ?>" placeholder="Rp. 0" autocomplete="off" required></input>
                                 </div>
                                 <div class="form-group">
                                     <label for="harga_jual">Harga Jual *</label>
-                                    <input type="number" name="harga_jual" class="form-control" id="harga_jual" placeholder="Rp. 0" autocomplete="off" required></input>
+                                    <input type="number" name="harga_jual" class="form-control" id="harga_jual" value="<?= $msg != '' ? $barang['harga_jual'] : null ?>" placeholder="Rp. 0" autocomplete="off" required></input>
                                 </div>
                                 <div class="form-group">
                                     <label for="stok_minimal">Stok Minimal *</label>
-                                    <input type="number" name="stok_minimal" class="form-control" id="stok_minimal" placeholder="0" autocomplete="off" required></input>
+                                    <input type="number" name="stok_minimal" class="form-control" id="stok_minimal" value="<?= $msg != '' ? $barang['stok_minimal'] : null ?>" placeholder="0" autocomplete="off" required></input>
                                 </div>
                             </div>
                             <div class="col-lg-4 text-center px-3">
-                                <img src="<?= $main_url ?>asset/image/default-brg.png" class="profile-user-img mb-3 mt-4" alt=""><input type="file" class="form-control" name="image"><span class="text-sm">Type File Gambar JPG | PNG | GIF</span>
+                                <input type="hyden" name="oldImg" value="<?= $msg != '' ? $barang['gambar'] : null ?>">
+                                <img src="<?= $main_url ?>asset/image/<?= $msg != '' ? $barang['gambar'] : 'default-brg.png' ?>" class="profile-user-img mb-3 mt-4" alt=""><input type="file" class="form-control" name="image"><span class="text-sm">Type File Gambar JPG | PNG | GIF</span>
                             </div>
                         </div>
                     </div>
