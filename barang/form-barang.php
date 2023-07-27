@@ -28,11 +28,23 @@ if (isset($_GET['msg'])) {
 
 $alert = '';
 if (isset($_POST['simpan'])) { //jika tombol simpan di klik maka
-    if (insert($_POST)) {
-        $alert = '<div class="alert alert-success alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    Barang berhasil di tambahkan...
-  </div>';
+    if ($msg != '') {
+        if (update($_POST)) {
+            echo "
+                <script>document.location.href = 'index.php?msg=updated';</script>
+            ";
+        } else {
+            echo "
+                <script>document.location.href = 'index.php';</script>
+            ";
+        }
+    } else {
+        if (insert($_POST)) {
+            $alert = '<div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        Barang berhasil di tambahkan...
+        </div>';
+        }
     }
 }
 
@@ -125,7 +137,7 @@ if (isset($_POST['simpan'])) { //jika tombol simpan di klik maka
                                 </div>
                             </div>
                             <div class="col-lg-4 text-center px-3">
-                                <input type="hyden" name="oldImg" value="<?= $msg != '' ? $barang['gambar'] : null ?>">
+                                <input type="hidden" name="oldImg" value="<?= $msg != '' ? $barang['gambar'] : null ?>">
                                 <img src="<?= $main_url ?>asset/image/<?= $msg != '' ? $barang['gambar'] : 'default-brg.png' ?>" class="profile-user-img mb-3 mt-4" alt=""><input type="file" class="form-control" name="image"><span class="text-sm">Type File Gambar JPG | PNG | GIF</span>
                             </div>
                         </div>

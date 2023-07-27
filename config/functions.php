@@ -152,3 +152,67 @@ function menuBarang()
     }
     return $result;
 }
+function menuBeli()
+{
+    if (userMenu() == 'pembelian') { //nama folder
+        $result = 'active'; //class milik admin LTE
+    } else {
+        $result = null;
+    }
+    return $result;
+}
+function menuJual()
+{
+    if (userMenu() == 'penjualan') {
+        $result = 'active'; //class milik admin LTE
+    } else {
+        $result = null;
+    }
+    return $result;
+}
+
+function laporanStok()
+{
+    if (userMenu() == 'stok') {
+        $result = 'active'; //class milik admin LTE
+    } else {
+        $result = null;
+    }
+    return $result;
+}
+function laporanBeli()
+{
+    if (userMenu() == 'laporan-pembelian') { //diambil dari nama folder
+        $result = 'active'; //class milik admin LTE
+    } else {
+        $result = null;
+    }
+    return $result;
+}
+function laporanJual()
+{
+    if (userMenu() == 'laporan-penjualan') { //diambil dari nama folder
+        $result = 'active'; //class milik admin LTE
+    } else {
+        $result = null;
+    }
+    return $result;
+}
+
+function in_date($tgl)
+{
+    $tg     = substr($tgl, 8, 2);
+    $bln    = substr($tgl, 5, 2);
+    $thn    = substr($tgl, 0, 4);
+    return $tg . "-" . $bln . "-" . $thn;
+}
+
+function omset()
+{
+    global $koneksi;
+    $queryOmset = mysqli_query($koneksi, "SELECT sum(total) as omset FROM header_penjualan");
+    $data       = mysqli_fetch_assoc($queryOmset);
+    $omset      = number_format($data['omset'], 0, ',', '.');
+
+    return $omset;
+}

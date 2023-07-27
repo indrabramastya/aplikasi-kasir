@@ -39,6 +39,22 @@
 <!-- jQuery untuk menampilkan pencarian dan jumlah data yang ditampilkan-->
 <script>
     $(function() {
+        let tema = sessionStorage.getItem('tema');
+        if (tema) {
+            $('body').addClass(tema);
+            $('#cekDark').prop('checked', true);
+        }
+        $(document).on('click', "#cekDark", function() {
+            if ($('#cekDark').is(':checked')) {
+                $('body').addClass('dark-mode');
+                sessionStorage.setItem('tema', 'dark-mode');
+            } else {
+                $('body').removeClass('dark-mode');
+                sessionStorage.removeItem('tema');
+            }
+        })
+
+
         $('#tblData').DataTable();
     });
 </script>

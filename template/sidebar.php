@@ -59,32 +59,32 @@
          <?php } ?>
          <li class="nav-header">Transaksi</li>
          <li class="nav-item">
-           <a href="#" class="nav-link">
+           <a href="<?= $main_url ?>pembelian" class="nav-link <?= menuBeli() ?>">
              <i class="nav-icon fas fa-shopping-cart text-sm"></i>
              <p>Pembelian</p>
            </a>
          </li>
          <li class="nav-item">
-           <a href="#" class="nav-link">
+           <a href="<?= $main_url ?>penjualan" class="nav-link <?= menuJual() ?>">
              <i class="nav-icon fas fa-file-invoice text-sm"></i>
              <p>Penjualan</p>
            </a>
          </li>
          <li class="nav-header">Reports</li>
          <li class="nav-item">
-           <a href="#" class="nav-link">
+           <a href="<?= $main_url ?>laporan-pembelian" class="nav-link <?= laporanBeli() ?>">
              <i class="nav-icon fas fa-chart-pie text-sm"></i>
              <p>Laporan Pembelian</p>
            </a>
          </li>
          <li class="nav-item">
-           <a href="#" class="nav-link">
+           <a href="<?= $main_url ?>laporan-penjualan" class="nav-link <?= laporanJual() ?>">
              <i class="nav-icon fas fa-chart-line text-sm"></i>
              <p>Laporan Penjualan</p>
            </a>
          </li>
          <li class="nav-item">
-           <a href="#" class="nav-link">
+           <a href="<?= $main_url ?>stok" class="nav-link <?= laporanStok() ?>">
              <i class="nav-icon fas fa-warehouse text-sm"></i>
              <p>Laporan Stok</p>
            </a>
